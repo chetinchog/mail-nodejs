@@ -23,7 +23,7 @@ routes.post("/email", async ({ subject, email, body }, res) => {
   try {
     const transport = nodemailer.createTransport({
       host: process.env.MAIL_HOST,
-      port: 2525,
+      port: process.env.MAIL_PORT,
       auth: {
         user: process.env.MAIL_USER,
         pass: process.env.MAIL_PASS,
@@ -43,10 +43,10 @@ routes.post("/email", async ({ subject, email, body }, res) => {
   }
 });
 app.use("/api", routes);
-app.listen(process.env.NODE_PORT || 5000, () => {
+app.listen(process.env.NODE_PORT, () => {
   console.log(
     `[mail][${process.env.NODE_ENV}] Mail is running on ${
-      process.env.NODE_PORT || 5000
+      process.env.NODE_PORT
     }`
   );
 });

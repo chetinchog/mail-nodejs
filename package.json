@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=local nodemon ./index.js",
-    "test": "mocha ./controllers/user/test.js",
-    "apidoc": "./node_modules/.bin/apidoc -i controllers/ -o ./dist/public && ./node_modules/.bin/apidoc-markdown2 -p ./dist/public -o README-API.md",
+    "start": "nodemon ./index.js",
     "run": "nodemon ./index.js",
     "local": "cross-env NODE_ENV=local npm run run"
   },

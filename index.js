@@ -31,7 +31,7 @@ routes.post("/email", async ({ subject, email, body }, res) => {
     });
     await transport.sendMail({
       from: process.env.MAIL_FROM,
-      sender: process.env.MAIL_SENDER,
+      sender: process.env.MAIL_SENDER || process.env.MAIL_FROM,
       to: email,
       subject,
       html: body,
@@ -43,6 +43,10 @@ routes.post("/email", async ({ subject, email, body }, res) => {
   }
 });
 app.use("/api", routes);
-app.listen(5000, () => {
-  console.log(`[mail][${process.env.NODE_ENV}] Mail is running on PORT 5000`);
+app.listen(process.env.NODE_PORT || 5000, () => {
+  console.log(
+    `[mail][${process.env.NODE_ENV}] Mail is running on ${
+      process.env.NODE_PORT || 5000
+    }`
+  );
 });

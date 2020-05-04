@@ -1,0 +1,39 @@
+{
+  "name": "simin2-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=local nodemon ./index.js",
+    "test": "mocha ./controllers/user/test.js",
+    "apidoc": "./node_modules/.bin/apidoc -i controllers/ -o ./dist/public && ./node_modules/.bin/apidoc-markdown2 -p ./dist/public -o README-API.md",
+    "run": "nodemon ./index.js",
+    "local": "cross-env NODE_ENV=local npm run run",
+    "localEncrypt": "cross-env CRYPTO_KEY=.1qaz2wsx3edc4rfv NODE_ENV=local npm run run",
+    "localToCloud": "NODE_ENV=localToCloud npm run run",
+    "dockerServer": "node ./index.js",
+    "mechu": "NODE_ENV=mechi npm run run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/delatorremario/simin2-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/delatorremario/simin2-backend/issues"
+  },
+  "homepage": "https://gitlab.com/delatorremario/simin2-backend#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "cross-env": "^6.0.0",
+    "express": "^4.16.4",
+    "morgan": "^1.9.1",
+    "nodemailer": "^6.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+}

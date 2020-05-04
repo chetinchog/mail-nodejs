@@ -12,3 +12,7 @@
 
 - MAIL_FROM=...
 - MAIL_SENDER=...
+
+## Body
+
+{ subject, email, body }

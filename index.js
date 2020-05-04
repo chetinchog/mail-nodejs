@@ -1,27 +1,16 @@
 console.log("--------------------------------------------");
-const morgan = require("morgan");
 const express = require("express");
-const path = require("path");
-var cors = require("cors");
-const routes = require("express").Router();
-const nodemailer = require("nodemailer");
-const app = express();
-app.use(morgan("dev"));
-app.use(express.json());
-app.use(
-  express.static(path.join(__dirname, "./dist/public"), { maxAge: 31557600000 })
-);
+const routes = express.Router();
 const bodyParser = require("body-parser");
-app.use(bodyParser.json({ limit: "50mb" }));
-app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
-routes.use(cors());
+
+routes.use(require("cors")());
 routes.post("/email", async ({ subject, email, body }, res) => {
   if (!subject || !email || !body) {
     res.status(400).json("Missing fields!");
     return;
   }
   try {
-    const transport = nodemailer.createTransport({
+    const transport = require("nodemailer").createTransport({
       host: process.env.MAIL_HOST,
       port: process.env.MAIL_PORT,
       auth: {
@@ -42,11 +31,19 @@ routes.post("/email", async ({ subject, email, body }, res) => {
     res.status(500).json(e);
   }
 });
-app.use("/api", routes);
-app.listen(process.env.NODE_PORT, () => {
-  console.log(
-    `[mail][${process.env.NODE_ENV}] Mail is running on ${
-      process.env.NODE_PORT
-    }`
-  );
-});
+express()
+  .use(require("morgan")("dev"))
+  .use(express.json())
+  .use(
+    express.static(require("path").join(__dirname, "./dist/public"), {
+      maxAge: 31557600000,
+    })
+  )
+  .use(bodyParser.json({ limit: "50mb" }))
+  .use(bodyParser.urlencoded({ limit: "50mb", extended: true }))
+  .use("/api", routes)
+  .listen(process.env.NODE_PORT, () => {
+    console.log(
+      `[mail][${process.env.NODE_ENV}] Mail is running on ${process.env.NODE_PORT}`
+    );
+  });

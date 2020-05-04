@@ -4,7 +4,7 @@ const routes = express.Router();
 const bodyParser = require("body-parser");
 
 routes.use(require("cors")());
-routes.post("/email", async ({ subject, email, body }, res) => {
+routes.post("/", async ({ body: { subject, email, body } }, res) => {
   if (!subject || !email || !body) {
     res.status(400).json("Missing fields!");
     return;
@@ -41,9 +41,11 @@ express()
   )
   .use(bodyParser.json({ limit: "50mb" }))
   .use(bodyParser.urlencoded({ limit: "50mb", extended: true }))
-  .use("/api", routes)
-  .listen(process.env.NODE_PORT, () => {
+  .use(process.env.NODE_BASEURL || "/api", routes)
+  .listen(process.env.NODE_PORT || 5000, () => {
     console.log(
-      `[mail][${process.env.NODE_ENV}] Mail is running on ${process.env.NODE_PORT}`
+      `[mail][${process.env.NODE_ENV || "local"}:${
+        process.env.NODE_PORT || 5000
+      }${process.env.NODE_BASEURL || "/api"}] Mail is alive!`
     );
   });
